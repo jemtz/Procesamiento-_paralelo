@@ -1,0 +1,34 @@
+import multiprocessing
+import time
+
+
+def trabajador():
+    name = multiprocessing.current_process().name
+    print(name, 'ha empezado')
+    time.sleep(2)
+    print(name, 'Saliendo')
+
+
+def Servicio():
+    name = multiprocessing.current_process().name
+    print(name, 'ha empezado')
+    time.sleep(3)
+    print(name, 'Saliendo')
+
+
+if __name__ == '__main__':
+    service = multiprocessing.Process(
+        name='Servicio',
+        target=Servicio,
+    )
+    worker_1 = multiprocessing.Process(
+        name='Trabajador 1',
+        target=trabajador,
+    )
+    worker_2 = multiprocessing.Process(  # default name
+        target=trabajador,
+    )
+
+    worker_1.start()
+    worker_2.start()
+    service.start()
